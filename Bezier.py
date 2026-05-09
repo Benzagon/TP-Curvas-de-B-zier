@@ -17,7 +17,14 @@ class Bezier:
         elif(self.grado == 2):
             return ((1-t)**2) * pc[0] + 2*(1-t)*t*pc[1] + (t**2)*pc[2]
         
-    def graficar(self, poligonal=True):
+    def graficar(self, show_plot=True, poligonal=True, curve_color="blue", pc_color="darkviolet"):
+        '''
+        Grafica la curva de Bezier.
+        - show_plot: si mostrar el gráfico con matplot (al ponerlo en False, se pueden graficar varias curvas en un mismo gráfico)
+        - poligonal: si mostrar la poligonal de control
+        - curve_color: el color de la curva
+        - pc_color: el color de los puntos de control
+        '''
         lista_de_t =  np.arange(0, 1.01, 0.01)
         puntos = [] # lista de array([float, float])
 
@@ -28,9 +35,9 @@ class Bezier:
         x = data[:, 0]
         y = data[:, 1]
 
-        plt.plot(x, y, color='blue', label='Bézier')  # Curva
+        plt.plot(x, y, color=curve_color, label='Bézier')  # Curva
         if(poligonal):
-            plt.plot(self.puntos_de_control[:, 0], self.puntos_de_control[:, 1], marker='o' ,linestyle='--',color='darkviolet', label='Puntos de control')
+            plt.plot(self.puntos_de_control[:, 0], self.puntos_de_control[:, 1], marker='o' ,linestyle='--',color=pc_color, label='Puntos de control')
         else:
             plt.scatter(self.puntos_de_control[:, 0], self.puntos_de_control[:, 1], marker='o' ,color='darkviolet', label='Puntos de control')
 
@@ -45,8 +52,9 @@ class Bezier:
         plt.xlim(min_x - 1, max_x + 1)
         plt.ylim(min_y - 1, max_y + 1)
 
-        plt.plot(x, y, color='red', alpha=0.3)
-        plt.xlabel("X")
-        plt.ylabel("Y")
-        plt.legend()
-        plt.show()
+        plt.plot(x, y, color='black', alpha=0.3)
+        if(show_plot):
+            plt.xlabel("X")
+            plt.ylabel("Y")
+            plt.legend()
+            plt.show()
