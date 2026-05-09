@@ -1,0 +1,52 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+class Bezier:
+    '''
+    Recibe como parámetro una lista de los puntos de control.
+    PRE: pueden ser 3 puntos o 4
+    '''
+    def __init__(self, puntos_de_control: list[list[int]]):
+        self.puntos_de_control = np.array(puntos_de_control)
+        self.grado = len(puntos_de_control)-1
+
+    def punto_en_t(self, t):
+        pc = self.puntos_de_control
+        if(self.grado == 3):
+            return ((1-t)**3) * pc[0] + 3*((1-t)**2)*t*pc[1] + 3* (1-t) * (t**2)*pc[2] + (t**3)*pc[3]
+        elif(self.grado == 2):
+            return ((1-t)**2) * pc[0] + 2*(1-t)*t*pc[1] + (t**2)*pc[2]
+        
+    def graficar(self, poligonal=True):
+        lista_de_t =  np.arange(0, 1.01, 0.01)
+        puntos = [] # lista de array([float, float])
+
+        for i in range(101):
+            puntos.append(self.punto_en_t(lista_de_t[i]))
+
+        data = np.array(puntos)
+        x = data[:, 0]
+        y = data[:, 1]
+
+        plt.plot(x, y, color='blue', label='Bézier')  # Curva
+        if(poligonal):
+            plt.plot(self.puntos_de_control[:, 0], self.puntos_de_control[:, 1], marker='o' ,linestyle='--',color='darkviolet', label='Puntos de control')
+        else:
+            plt.scatter(self.puntos_de_control[:, 0], self.puntos_de_control[:, 1], marker='o' ,color='darkviolet', label='Puntos de control')
+
+        for i, punto in enumerate(self.puntos_de_control):
+            plt.text(punto[0] + 0.1, punto[1] + 0.1, f'P{i}', fontsize=10, color='darkviolet')
+
+        min_x = np.min(self.puntos_de_control[:, 0])
+        min_y = np.min(self.puntos_de_control[:, 1])
+        max_x = np.max(self.puntos_de_control[:, 0])
+        max_y = np.max(self.puntos_de_control[:, 1])
+
+        plt.xlim(min_x - 1, max_x + 1)
+        plt.ylim(min_y - 1, max_y + 1)
+
+        plt.plot(x, y, color='red', alpha=0.3)
+        plt.xlabel("X")
+        plt.ylabel("Y")
+        plt.legend()
+        plt.show()

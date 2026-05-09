@@ -1,25 +1,11 @@
+from Bezier import Bezier
 import numpy as np
 import matplotlib.pyplot as plt
 
-class Bezier:
-    def __init__(self, punto_de_control):
-        self.puntos_de_control = punto_de_control
-
-    def punto_en_t(self, t):
-        p0 = self.puntos_de_control[0]
-        p1 = self.puntos_de_control[1]
-        p2 = self.puntos_de_control[2]
-        p3 = self.puntos_de_control[3]
-
-        return ((1-t)**3) * p0 + 3*((1-t)*2)*t*p1 + 3* (1-t) * (t**2)*p2 + (t**3)*p3
-
-p0 = np.array([-5,0])
-p1 = np.array([2,-2])
-p2 = np.array([9,6])  
-p3 = np.array([16,3])  
-control = [p0,p1,p2,p3]
+control = [[-5,0],[2,-2],[9,6],[16,3]]
 
 curva = Bezier(control)
+print(curva.punto_en_t(0.5))
 
 ## Punto c.
 
