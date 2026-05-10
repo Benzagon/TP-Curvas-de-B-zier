@@ -19,7 +19,7 @@ class Bezier:
         
     def graficar(self, show_plot=True, poligonal=True, curve_color="blue", pc_color="darkviolet"):
         '''
-        Grafica la curva de Bezier.
+        Graficar la curva de Bezier.
         - show_plot: si mostrar el gráfico con matplot (al ponerlo en False, se pueden graficar varias curvas en un mismo gráfico)
         - poligonal: si mostrar la poligonal de control
         - curve_color: el color de la curva
@@ -39,10 +39,10 @@ class Bezier:
         if(poligonal):
             plt.plot(self.puntos_de_control[:, 0], self.puntos_de_control[:, 1], marker='o' ,linestyle='--',color=pc_color, label='Puntos de control')
         else:
-            plt.scatter(self.puntos_de_control[:, 0], self.puntos_de_control[:, 1], marker='o' ,color='darkviolet', label='Puntos de control')
+            plt.scatter(self.puntos_de_control[:, 0], self.puntos_de_control[:, 1], marker='o' ,color=pc_color, label='Puntos de control')
 
         for i, punto in enumerate(self.puntos_de_control):
-            plt.text(punto[0] + 0.1, punto[1] + 0.1, f'P{i}', fontsize=10, color='darkviolet')
+            plt.text(punto[0] + 0.1, punto[1] + 0.1, f'P{i}', fontsize=10, color=pc_color)
 
         min_x = np.min(self.puntos_de_control[:, 0])
         min_y = np.min(self.puntos_de_control[:, 1])
