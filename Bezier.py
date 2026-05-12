@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from Graficador import *
 
 class Bezier:
     '''
@@ -17,7 +18,13 @@ class Bezier:
         elif(self.grado == 2):
             return ((1-t)**2) * pc[0] + 2*(1-t)*t*pc[1] + (t**2)*pc[2]
         
-    def graficar(self, show_plot=True, poligonal=True, curve_color="blue", pc_color="darkviolet"):
+    def longitud(self):
+        t = np.linspace(0, 1, 100)
+        pts = np.array([self.punto_en_t(ti) for ti in t])
+        diffs = np.diff(pts, axis=0)
+        return np.sum(np.sqrt((diffs**2).sum(axis=1)))
+        
+    def graficar(self, show_plot=True, poligonal=True, curve_color="blue", pc_color="darkviolet", figsize=(0,0)):
         '''
         Graficar la curva de Bezier.
         - show_plot: si mostrar el gráfico con matplot (al ponerlo en False, se pueden graficar varias curvas en un mismo gráfico)
@@ -44,13 +51,16 @@ class Bezier:
         for i, punto in enumerate(self.puntos_de_control):
             plt.text(punto[0] + 0.1, punto[1] + 0.1, f'P{i}', fontsize=10, color=pc_color)
 
-        min_x = np.min(self.puntos_de_control[:, 0])
-        min_y = np.min(self.puntos_de_control[:, 1])
-        max_x = np.max(self.puntos_de_control[:, 0])
-        max_y = np.max(self.puntos_de_control[:, 1])
+        if(figsize != (0,0)):
+            min_x = np.min(self.puntos_de_control[:, 0])
+            min_y = np.min(self.puntos_de_control[:, 1])
+            max_x = np.max(self.puntos_de_control[:, 0])
+            max_y = np.max(self.puntos_de_control[:, 1])
 
-        plt.xlim(min_x - 1, max_x + 1)
-        plt.ylim(min_y - 1, max_y + 1)
+            plt.xlim(min_x - 1, max_x + 1)
+            plt.ylim(min_y - 1, max_y + 1)
+        else:
+            plt.figure(figsize=figsize)
 
         plt.plot(x, y, color='black', alpha=0.3)
         if(show_plot):
@@ -58,3 +68,13 @@ class Bezier:
             plt.ylabel("Y")
             plt.legend()
             plt.show()
+
+    def graficar_con_obstaculos(self):
+        fig, ax = plt.subplots(figsize=(15,9)) 
+        ax = configurar_mapa(ax)
+        ax, obstaculos = configurar_obstaculos(ax)
+
+        self.graficar(show_plot=False, poligonal=False, figsize=(15,9), curve_color='darkviolet', pc_color='darkviolet')
+
+        plt.show()
+    
