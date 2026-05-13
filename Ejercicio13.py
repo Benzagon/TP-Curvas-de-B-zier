@@ -10,8 +10,8 @@ def generar_curva_aleatoria():
 b1 = generar_curva_aleatoria()
 b2 = generar_curva_aleatoria()
 
-b1.graficar(poligonal=False, curve_color="darkviolet", pc_color="darkviolet")
-b2.graficar(poligonal=False, curve_color="blue", pc_color="blue")
+# b1.graficar(poligonal=False, curve_color="darkviolet", pc_color="darkviolet")
+# b2.graficar(poligonal=False, curve_color="blue", pc_color="blue")
 
 def transformacion(b1: Bezier, b2: Bezier):
     L = np.array([b1.puntos_de_control[0], b1.puntos_de_control[len(b1.puntos_de_control) - 1]]).transpose()
@@ -30,10 +30,10 @@ def transformacion(b1: Bezier, b2: Bezier):
 
 T_b1 = transformacion(b1,b2)
 
-b2.graficar(poligonal=False, curve_color="blue", pc_color="blue", show_plot=False)
-T_b1.graficar(poligonal=False, curve_color="darkviolet", pc_color="darkviolet", show_plot=False)
+b2.graficar(poligonal=False, curve_color="blue", pc_color="blue", show_plot=False, figsize=(100,100))
+T_b1.graficar(poligonal=False, curve_color="darkviolet", pc_color="darkviolet", show_plot=False, figsize=(100,100))
 
-plt.xlabel("X")
-plt.ylabel("Y")
+plt.xlabel("t")
+plt.ylabel("f(t)")
 plt.legend()
 plt.show()
